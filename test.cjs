@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict');
-const {SilenceGate,shuffle,cleanQuestions}=require('./core.js');
+const {SilenceGate,shuffle,selectQuestions,cleanQuestions}=require('./core.js');
 const gate=new SilenceGate();
 for(let t=0;t<120000;t+=100)assert.equal(gate.update(0,t,.025),false,'must wait indefinitely before speech');
 for(const t of [120000,120100,120200])gate.update(.06,t,.025);
@@ -12,5 +12,7 @@ assert.equal(gate.update(0,31200,.025),false,'resumed speech resets silence');as
 gate.reset();assert.equal(gate.remaining(90000),null);
 const input=['a','b','c','d'];const output=shuffle(input,()=>0);assert.deepEqual(input,['a','b','c','d']);assert.equal(new Set(output).size,4);assert.notDeepEqual(input,output);
 assert.deepEqual(cleanQuestions([' ಕನ್ನಡ ','','ಕನ್ನಡ','ಪ್ರಶ್ನೆ']),['ಕನ್ನಡ','ಪ್ರಶ್ನೆ']);
+assert.deepEqual(selectQuestions([' a ','b','a','c'],2,false),['a','b'],'non-random order follows the bank');
+assert.deepEqual(selectQuestions(['a','b','c','d'],3,true,()=>0),['b','c','d'],'random selection shuffles without repeats and respects the count');
 const XLSX=require('./vendor/xlsx.full.min.js');const book=XLSX.utils.book_new();XLSX.utils.book_append_sheet(book,XLSX.utils.aoa_to_sheet([['Question'],['ನಿಮ್ಮ ಹೆಸರೇನು?'],['ದಾಖಲೆ ಇದೆಯೇ?']]),'Questions');const bytes=XLSX.write(book,{type:'buffer',bookType:'xlsx'});const restored=XLSX.read(bytes,{type:'buffer'});assert.deepEqual(XLSX.utils.sheet_to_json(restored.Sheets.Questions,{header:1}),[['Question'],['ನಿಮ್ಮ ಹೆಸರೇನು?'],['ದಾಖಲೆ ಇದೆಯೇ?']]);
 console.log('Passed: pre-speech wait, 10-second silence, noise spike, resumed speech, reset, shuffle, deduplication, Kannada XLSX round-trip.');

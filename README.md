@@ -6,7 +6,7 @@
 2. Open a terminal in this folder and run `python3 -m http.server 8000 --bind 127.0.0.1`.
 3. Open http://localhost:8000 in a current Chrome or Edge browser.
 4. Allow microphone access. Select an installed Kannada voice and speaking speed.
-5. Edit/import the bank, choose up to 20 questions (or another number), and start.
+5. Edit/import the bank, choose up to 20 questions (or another number), select whether to randomize question order, and start.
 
 No build, API key, account or app backend is required. The Excel library is bundled.
 
@@ -23,7 +23,7 @@ Install Kannada speech synthesis in your phone/computer's speech or accessibilit
 - XLSX: first worksheet, first-row column header `Question` (also accepts `Questions` or `ಪ್ರಶ್ನೆ`). The export creates this format. Other columns are ignored.
 - Select Append or Replace, choose the file, inspect the preview, then Apply import. Maximum 5 MB, 2,000 questions, 3,000 characters each.
 - Export Excel or text at any time. Sample files are included.
-- Each new trial shuffles a separate copy of the unique bank. No repeats within a trial. If fewer than the requested count exist, all available questions are used. Random order can coincidentally match a previous trial.
+- Before starting each trial, choose whether to randomize question order. Randomization is enabled by default; when disabled, questions follow their order in the bank. No repeats within a trial. If fewer than the requested count exist, all available questions are used. Random order can coincidentally match a previous trial.
 - Editing the bank during a trial changes future trials only.
 
 ## Answer flow and safeguards
